@@ -28,4 +28,21 @@ class Board
 
   # Vérifie si l'un des joueurs a gagné la partie
   def victory?
-    # Liste des index du tableau @cases correspondant aux
+    # Liste des index du tableau @cases correspondant aux 8 lignes, colonnes et diagonales gagnantes
+    wins = [[0,1,2],[3,4,5],[6,7,8],[0,3,6],[1,4,7],[2,5,8],[0,4,8],[2,4,6]]
+    
+    # Vérifie si au moins une des combinaisons gagnantes est remplie par le même symbole
+    wins.any? do |w|
+      # Vérifie que la case n'est pas vide ET que les trois cases de la combinaison sont identiques
+      @cases[w[0]].value != " " && 
+      @cases[w[0]].value == @cases[w[1]].value && 
+      @cases[w[1]].value == @cases[w[2]].value
+    end
+  end
+
+  # Vérifie si le plateau est plein (pour déterminer un match nul)
+  def full?
+    # Renvoie vrai si aucune case ne contient un espace vide
+    @cases.all? { |c| c.value != " " }
+  end
+end
