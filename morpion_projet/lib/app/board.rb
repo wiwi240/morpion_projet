@@ -1,3 +1,8 @@
+require 'bundler'
+Bundler.require
+
+require_relative 'lib/board_case'
+
 class Board
     attr_accessor :cases
     def initialize 
