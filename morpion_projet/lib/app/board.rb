@@ -1,32 +1,31 @@
+# Définit la classe Board qui gère l'état global du plateau de jeu
 class Board
+  # Permet d'accéder au tableau contenant les objets BoardCase
   attr_accessor :cases
 
+  # Initialisation du plateau lors de la création d'une nouvelle instance
   def initialize
+    # Initialise un tableau vide pour stocker les 9 cases
     @cases = []
-    # Création des 9 cases
+    
+    # Itère sur les lettres A, B, C pour les lignes
     ["A", "B", "C"].each do |letter|
+      # Itère sur les chiffres 1, 2, 3 pour les colonnes
       (1..3).each do |number|
+        # Instancie une nouvelle BoardCase avec sa coordonnée (ex: "A1") et l'ajoute au tableau
         @cases << BoardCase.new("#{letter}#{number}")
       end
     end
   end
 
+  # Modifie la valeur d'une case spécifique lors d'un tour de jeu
   def play_turn(position, symbol)
+    # Cherche l'objet BoardCase dont la position correspond à l'entrée
     target = @cases.find { |c| c.position == position }
+    # Si la case est trouvée, lui assigne le symbole du joueur (X ou O)
     target.value = symbol if target
   end
 
+  # Vérifie si l'un des joueurs a gagné la partie
   def victory?
-    # Les 8 combinaisons gagnantes
-    wins = [[0,1,2],[3,4,5],[6,7,8],[0,3,6],[1,4,7],[2,5,8],[0,4,8],[2,4,6]]
-    wins.any? do |w|
-      @cases[w[0]].value != " " && 
-      @cases[w[0]].value == @cases[w[1]].value && 
-      @cases[w[1]].value == @cases[w[2]].value
-    end
-  end
-
-  def full?
-    @cases.all? { |c| c.value != " " }
-  end
-end
+    # Liste des index du tableau @cases correspondant aux

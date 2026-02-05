@@ -1,6 +1,11 @@
+# Spécifie la source principale pour le téléchargement des bibliothèques Ruby
 source "https://rubygems.org"
 
+# Définit la version spécifique de l'interpréteur Ruby requise pour le projet
 ruby '3.4.2' # Ta version de Ruby actuelle
 
+# Installe la gem 'colorize' pour permettre la coloration du texte dans la console
 gem 'colorize' # Pour mettre de la couleur dans le terminal
+
+# Installe 'pry', un shell interactif puissant pour le débogage et l'exploration du code
 gem 'pry'      # Pour pouvoir tester ton code facilement (débuggage)
