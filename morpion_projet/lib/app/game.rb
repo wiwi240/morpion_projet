@@ -1,41 +1,42 @@
 class Game
-    attr_accessor :players, :board 
-
-    def initialize
-    puts "Bienvenue dans le jeu du morpion !"
-    
-    puts "Joueur 1, entrez votre nom : "
-    # On appelle la classe Player (sans le 1)
-    @player1 = Player.new(gets.chomp, "X")
-    
-    puts "Joueur 2, entrez votre nom : "
-    # On appelle encore la classe Player (sans le 2)
-    @player2 = Player.new(gets.chomp, "O")
-    
+  def initialize
     @board = Board.new
+    puts "Nom du Joueur 1 (X) :"
+    @p1 = Player.new(gets.chomp, "X")
+    puts "Nom du Joueur 2 (O) :"
+    @p2 = Player.new(gets.chomp, "O")
+    @players = [@p1, @p2]
+  end
+
+  def turn
+    Show.new.show_board(@board)
+    current_player = @players[0]
     
-    # On range les deux objets dans une variable d'instance @
-    @players = [@player1, @player2]
-
+    puts "C'est à #{current_player.name} de jouer."
+    choice = ""
+    loop do
+      print "Choisis une case (A1..C3) : "
+      choice = gets.chomp.upcase
+      # Vérification si la case existe et est vide
+      case_to_check = @board.cases.find { |c| c.position == choice }
+      break if case_to_check && case_to_check.value == " "
+      puts "Case invalide ou occupée !"
     end
-    def turn
-        # 1. On affiche le plateau en utilisant la classe Show
-        # C'est ici que tu appelles ton travail précédent !
-        @show.show_board(@board)
 
-        # 2. On détermine qui est le joueur actif
-        current_player = @players[0] 
-        puts "C'est au tour de #{current_player.name} (#{current_player.symbol})"
+    @board.play_turn(choice, current_player.symbol)
+    @players.rotate!
+  end
 
-        # 3. On demande au joueur quelle case il veut jouer
-        puts "Quelle case choisis-tu ? (ex: A1, B2...)"
-        choice = gets.chomp
+  def game_over?
+    @board.victory? || @board.full?
+  end
 
-        # 4. On demande au Board de modifier la case choisie
-        # (Il faudra créer cette méthode 'play_turn' dans ton Board)
-        @board.play_turn(choice, current_player.symbol)
-
-        # 5. On change l'ordre des joueurs pour le prochain tour
-        @players.rotate!
+  def conclude
+    Show.new.show_board(@board)
+    if @board.victory?
+      puts "Félicitations #{@players[1].name}, tu as gagné !"
+    else
+      puts "Match nul !"
     end
+  end
 end

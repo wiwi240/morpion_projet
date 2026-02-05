@@ -1,21 +1,14 @@
-require 'bundler'
-Bundler.require
-
-require_relative 'lib/board_case'
-require_relative 'lib/board'
-
 class Show
-    def show_board(board)
-    # On crée une variable locale 'c' pour raccourcir le code
-    # board.cases est le tableau de 9 objets BoardCase que tu as créé
+  def show_board(board)
     c = board.cases
+    # Petit hack pour mettre de la couleur sur les symboles
+    v = c.map { |bc| bc.value == "X" ? bc.value.red : (bc.value == "O" ? bc.value.blue : bc.value) }
 
-    # On affiche la grille en allant piocher la .value de chaque objet
     puts "      1   2   3"
-    puts "   A  #{c[0].value} | #{c[1].value} | #{c[2].value}"
+    puts "   A  #{v[0]} | #{v[1]} | #{v[2]}"
     puts "     -----------"
-    puts "   B  #{c[3].value} | #{c[4].value} | #{c[5].value}"
+    puts "   B  #{v[3]} | #{v[4]} | #{v[5]}"
     puts "     -----------"
-    puts "   C  #{c[6].value} | #{c[7].value} | #{c[8].value}"
-    end
+    puts "   C  #{v[6]} | #{v[7]} | #{v[8]}"
+  end
 end

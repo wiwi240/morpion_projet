@@ -1,1 +1,6 @@
-gem ''
+source "https://rubygems.org"
+
+ruby '3.4.2' # Ta version de Ruby actuelle
+
+gem 'colorize' # Pour mettre de la couleur dans le terminal
+gem 'pry'      # Pour pouvoir tester ton code facilement (débuggage)
